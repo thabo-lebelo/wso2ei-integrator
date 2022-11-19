@@ -79,6 +79,15 @@ export class Wso2EiIntegratorStack extends Stack {
             serviceName: 'integrator-profile',
         });
 
+        const scaling = service.autoScaleTaskCount({ maxCapacity: 3, minCapacity: 1 });
+        
+        // Auto-Scaling depending on CPU utilization
+        scaling.scaleOnCpuUtilization('autoscale', {
+            targetUtilizationPercent: 50,
+            scaleInCooldown: Duration.minutes(2),
+            scaleOutCooldown: Duration.seconds(30)
+        });
+
         /* CONFIGURE ALB DEFAULT LISTENER */
         const listener = alb.addListener('port9443Listener', { 
             port: 9443,
