@@ -1,0 +1,49 @@
+{
+  "vpc-provider:account=737327749629:filter.tag:Name=Blog:region=us-east-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0d2b9c1b4184bed7d",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-04a2d49308d11ff25",
+            "cidr": "10.0.0.0/18",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-058cdf4bb52ba01ca"
+          },
+          {
+            "subnetId": "subnet-0fabb88b93d98c50b",
+            "cidr": "10.0.64.0/18",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-03d508eaab1e43baa"
+          }
+        ]
+      },
+      {
+        "name": "Private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-000a7730f6ab7e1b2",
+            "cidr": "10.0.128.0/18",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-0dc1662a412898136"
+          },
+          {
+            "subnetId": "subnet-0963e0bdc91586911",
+            "cidr": "10.0.192.0/18",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-032868027c4fc9676"
+          }
+        ]
+      }
+    ]
+  },
+  "hosted-zone:account=737327749629:domainName=thabolebelo.com:region=us-east-1": {
+    "Id": "/hostedzone/Z0614066168C321XAWFXX",
+    "Name": "thabolebelo.com."
+  }
+}
