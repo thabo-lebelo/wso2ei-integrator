@@ -18,13 +18,13 @@ export class Wso2EiIntegratorStack extends Stack {
 
         const cluster = new ecs.Cluster(this, "Cluster", {
             vpc: vpc,
-            clusterName: "wso2ei-integrator",
+            clusterName: "wso2-integrator",
         });
 
         const alb = new elbv2.ApplicationLoadBalancer(this, 'ALB', {
             vpc: vpc,
             internetFacing: true,
-            loadBalancerName: 'wso2ei-integrator'
+            loadBalancerName: 'wso2-integrator'
         });
 
         /* DNS, DOMAINS, CERTS */
@@ -34,7 +34,7 @@ export class Wso2EiIntegratorStack extends Stack {
         });
 
         const cert = new acm.Certificate(this, 'Certificate', {
-            domainName: 'wso2ei-integrator.thabolebelo.com',
+            domainName: 'wso2-integrator.thabolebelo.com',
             validation: acm.CertificateValidation.fromDns(zone)
         });
 
@@ -46,7 +46,7 @@ export class Wso2EiIntegratorStack extends Stack {
             ),
             ttl: Duration.seconds(300),
             comment: 'URL to access the WSO2 Enterprise Integrator',
-            recordName: 'wso2ei-integrator'
+            recordName: 'wso2-integrator'
         });
 
         const repo = ecr.Repository.fromRepositoryArn(this, "Repo",
@@ -65,7 +65,7 @@ export class Wso2EiIntegratorStack extends Stack {
         const container = task.addContainer('Container', {
             image: image,
             memoryLimitMiB: 1024,
-            logging: ecs.LogDriver.awsLogs({ streamPrefix: "wso2ei-integrator" })
+            logging: ecs.LogDriver.awsLogs({ streamPrefix: "wso2-integrator" })
         });
 
         container.addPortMappings({
@@ -90,7 +90,7 @@ export class Wso2EiIntegratorStack extends Stack {
             port: 9443,
             targets: [service],
             protocol: elbv2.ApplicationProtocol.HTTPS,
-            targetGroupName: 'WSO2',
+            targetGroupName: 'integrator-profile',
             healthCheck: {
                 path: '/services/Version',
                 protocol: elbv2.Protocol.HTTPS,
