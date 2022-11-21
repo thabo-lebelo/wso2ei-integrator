@@ -65,11 +65,17 @@ export class Wso2EiIntegratorStack extends Stack {
         const container = task.addContainer('Container', {
             image: image,
             memoryLimitMiB: 1024,
+            containerName: 'integrator',
             logging: ecs.LogDriver.awsLogs({ streamPrefix: "wso2-integrator" })
         });
 
         container.addPortMappings({
             containerPort: 9443,
+            protocol: ecs.Protocol.TCP
+        });
+
+        container.addPortMappings({
+            containerPort: 8243,
             protocol: ecs.Protocol.TCP
         });
 
@@ -89,17 +95,40 @@ export class Wso2EiIntegratorStack extends Stack {
         });
 
         /* CONFIGURE ALB DEFAULT LISTENER */
-        const listener = alb.addListener('port9443Listener', { 
+        const port9443Listener = alb.addListener('port9443Listener', { 
             port: 9443,
             certificates: [cert],
             protocol: elbv2.ApplicationProtocol.HTTPS
         });
         
-        listener.addTargets('service', {
+        port9443Listener.addTargets('wso2-on-9443', {
             port: 9443,
             targets: [service],
             protocol: elbv2.ApplicationProtocol.HTTPS,
-            targetGroupName: 'integrator-profile',
+            targetGroupName: 'wso2-on-9443',
+            healthCheck: {
+                path: '/services/Version',
+                protocol: elbv2.Protocol.HTTPS,
+                unhealthyThresholdCount: 3
+            }
+        });
+
+        const port8243listener = alb.addListener('port8243listener', { 
+            port: 8243,
+            certificates: [cert],
+            protocol: elbv2.ApplicationProtocol.HTTPS
+        });
+
+        const target = service.loadBalancerTarget({
+            containerName: 'integrator',
+            containerPort: 8243
+        });
+
+        port8243listener.addTargets('wso2-on-8243', {
+            port: 8243,
+            targets: [target],
+            protocol: elbv2.ApplicationProtocol.HTTPS,
+            targetGroupName: 'wso2-on-8243',
             healthCheck: {
                 path: '/services/Version',
                 protocol: elbv2.Protocol.HTTPS,
