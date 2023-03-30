@@ -45,5 +45,45 @@
   "hosted-zone:account=737327749629:domainName=thabolebelo.com:region=us-east-1": {
     "Id": "/hostedzone/Z0614066168C321XAWFXX",
     "Name": "thabolebelo.com."
-  }
+  },
+  "vpc-provider:account=858735049384:filter.tag:Name=default:region=af-south-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0cdae4322a8cfc0d0",
+    "vpcCidrBlock": "172.31.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0b817d84623d84e37",
+            "cidr": "172.31.0.0/20",
+            "availabilityZone": "af-south-1a",
+            "routeTableId": "rtb-0114ee573dadb0bd9"
+          },
+          {
+            "subnetId": "subnet-0a16d26a9e1a8304a",
+            "cidr": "172.31.32.0/20",
+            "availabilityZone": "af-south-1b",
+            "routeTableId": "rtb-0114ee573dadb0bd9"
+          },
+          {
+            "subnetId": "subnet-0725e6c5804651062",
+            "cidr": "172.31.16.0/20",
+            "availabilityZone": "af-south-1c",
+            "routeTableId": "rtb-0114ee573dadb0bd9"
+          }
+        ]
+      }
+    ]
+  },
+  "hosted-zone:account=858735049384:domainName=sovhubb.com:region=af-south-1": {
+    "Id": "/hostedzone/Z0755546271L825539AZA",
+    "Name": "sovhubb.com."
+  },
+  "availability-zones:account=858735049384:region=af-south-1": [
+    "af-south-1a",
+    "af-south-1b",
+    "af-south-1c"
+  ]
 }

@@ -12,9 +12,10 @@ export class Wso2EiIntegratorStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
         super(scope, id, props);
 
-        const vpc = ec2.Vpc.fromLookup(this, 'VPC', {
-            vpcName: 'Blog',
-        });
+        const vpc = new ec2.Vpc(this, 'VPC', {
+			vpcName: 'wso2-vpc',
+			maxAzs: 2
+		});
 
         const cluster = new ecs.Cluster(this, "Cluster", {
             vpc: vpc,
@@ -28,13 +29,13 @@ export class Wso2EiIntegratorStack extends Stack {
         });
 
         /* DNS, DOMAINS, CERTS */
-        // I'm using a domain I own: thabolebelo.com
+        // I'm using a domain I own: sovhubb.com
         const zone = route53.HostedZone.fromLookup(this, 'HostedZone', {
-            domainName: 'thabolebelo.com'
+            domainName: 'sovhubb.com'
         });
 
         const cert = new acm.Certificate(this, 'Certificate', {
-            domainName: 'wso2-integrator.thabolebelo.com',
+            domainName: 'wso2-integrator.sovhubb.com',
             validation: acm.CertificateValidation.fromDns(zone)
         });
 
@@ -50,7 +51,7 @@ export class Wso2EiIntegratorStack extends Stack {
         });
 
         const repo = ecr.Repository.fromRepositoryArn(this, "Repo",
-            "arn:aws:ecr:us-east-1:737327749629:repository/wso2ei-integrator"
+            "arn:aws:ecr:af-south-1:858735049384:repository/wso2ei-integrator"
         );
 
         const image = ecs.ContainerImage.fromEcrRepository(repo, '6.4.0');

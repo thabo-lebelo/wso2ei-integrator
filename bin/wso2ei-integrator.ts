@@ -5,7 +5,7 @@ import { Wso2EiIntegratorStack } from '../lib/wso2ei-integrator-stack';
 
 const app = new cdk.App();
 new Wso2EiIntegratorStack(app, 'Wso2EiIntegratorStack', {
-    env: { account: '737327749629', region: 'us-east-1' },
-    stackName: 'wso2-integrator',
+    env: { account: '858735049384', region: 'af-south-1' },
+    stackName: 'wso2ei-integrator',
     description: 'Integrator profile instance'
 });
